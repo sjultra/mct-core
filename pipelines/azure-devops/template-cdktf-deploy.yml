@@ -1,8 +1,20 @@
 # File: simple-param.yml
 parameters:
-- name: yesNo # name of the parameter; required
+- name: action # name of the parameter; required
   type: string # data type of the parameter; required
-  default: "default"
+  default: "deploy"
 
-steps:
-- script: echo ${{ parameters.yesNo }}
+jobs:
+- job: 'cdktf'
+  displayName: 'CDKTF'
+
+  container: 'mabivolan/mct:latest'
+
+  steps:
+  - script: |
+      pipenv install
+
+      source config.sh
+
+      cdktf ${{ parameters.action }} --auto-approve
+    displayName: 'CDKTF'
