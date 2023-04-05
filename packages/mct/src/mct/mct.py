@@ -1,7 +1,7 @@
 class Number(object):
 
     def __init__(self, n):
-        print("ASD", n)
+        print("TEST", n)
         self.value = n
 
     def val(self):
