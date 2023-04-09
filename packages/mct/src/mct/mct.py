@@ -41,7 +41,7 @@ class AzureKeyVault():
     def init_credentials(self, config):
         self._enabled = self._check_creadentials(config)
 
-        self._init_client()
+        self._enabled = self._init_client()
 
         return self._enabled
 
@@ -70,15 +70,19 @@ class AzureKeyVault():
             return False
 
     def _init_client(self):
-        creds = self._credentials[self.__class__.__name__]
+        try:
+            creds = self._credentials[self.__class__.__name__]
 
-        credential = ClientSecretCredential(
-            tenant_id=creds['tenant_id'],
-            client_id=creds['client_id'''],
-            client_secret=creds['client_secret']
-        )
+            credential = ClientSecretCredential(
+                tenant_id=creds['tenant_id'],
+                client_id=creds['client_id'''],
+                client_secret=creds['client_secret']
+            )
 
-        self._client = SecretClient(vault_url=creds['vault_url'], credential=credential)
+            self._client = SecretClient(vault_url=creds['vault_url'], credential=credential)
+            return True
+        except:
+            return False
 
 
     def _check_config(self, config):
