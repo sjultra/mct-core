@@ -3,6 +3,14 @@ parameters:
 - name: action # name of the parameter; required
   type: string # data type of the parameter; required
   default: "deploy"
+- name: vault_url
+  type: string
+- name: tenant_id
+  type: string
+- name: client_id
+  type: string
+- name: client_secret
+  type: string
 
 jobs:
 - job: 'cdktf'
@@ -12,9 +20,16 @@ jobs:
 
   steps:
   - script: |
-      pipenv install
+      mct init
 
-      source config.sh
+      mct getsecrets
+
+      cat config.ini
 
       cdktf ${{ parameters.action }} --auto-approve
     displayName: 'CDKTF'
+    env:
+      AzureKeyVault_client_id: ${{ parameters.client_id }}
+      AzureKeyVault_client_secret: ${{ parameters.client_secret }}
+      AzureKeyVault_tenant_id: ${{ parameters.tenant_id }}
+      AzureKeyVault_vault_url: ${{ parameters.vault_url }}
