@@ -16,10 +16,12 @@ jobs:
 - job: 'cdktf'
   displayName: 'CDKTF'
 
-  container: 'mabivolan/mct:latest'
+  container: 'ghcr.io/sjultra/mct:latest'
 
   steps:
   - script: |
+      source /usr/bin/mct/mct.sh
+
       mct init
 
       mct getsecrets
