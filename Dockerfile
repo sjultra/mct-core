@@ -15,4 +15,8 @@ RUN npm install --global cdktf-cli@latest
 
 RUN pip3 install --upgrade pip wheel setuptools requests pipenv
 
+RUN mkdir /usr/bin/mct
+COPY ./src /usr/bin/mct
+RUN echo "source /usr/bin/mct/mct.sh" >> /root/.bashrc
+
 WORKDIR /root
