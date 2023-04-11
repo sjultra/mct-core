@@ -61,12 +61,15 @@ function mct_synth {
 }
 
 function mct_destroy {
-    cdktf destroy
+    echo "Destroying..."
+    tool_export_tf_variables "config.ini" "TerraformVariable"
+    cdktf destroy --auto-approve
 }
 
 function mct_deploy {
+    echo "Deploying..."
     tool_export_tf_variables "config.ini" "TerraformVariable"
-    cdktf deploy
+    cdktf deploy --auto-approve
 }
 
 function tool_export_tf_variables() {
@@ -82,6 +85,7 @@ function tool_export_tf_variables() {
           section_start=0
         fi
       elif [[ $value && $section_start -eq 1 ]]; then
+        echo "Found Terraform variable: TF_VAR_$key"
         export "TF_VAR_$key"="$value"
       fi
     fi

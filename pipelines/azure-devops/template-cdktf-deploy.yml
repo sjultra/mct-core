@@ -26,7 +26,7 @@ jobs:
 
       mct getsecrets
 
-      cdktf ${{ parameters.action }} --auto-approve
+      mct ${{ parameters.action }}
     displayName: 'CDKTF'
     env:
       AzureKeyVault_client_id: ${{ parameters.client_id }}
