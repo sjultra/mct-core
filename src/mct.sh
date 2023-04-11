@@ -65,5 +65,25 @@ function mct_destroy {
 }
 
 function mct_deploy {
+    tool_export_tf_variables "config.ini" "TerraformVariable"
     cdktf deploy
+}
+
+function tool_export_tf_variables() {
+  local ini_file="$1"
+  local section_name="$2"
+  local section_start=0
+  while IFS=' = ' read -r key value; do
+    if [[ $key ]]; then
+      if [[ $key == \[*] ]]; then
+        if [[ "${key}" == "[$section_name]" ]]; then
+          section_start=1
+        else
+          section_start=0
+        fi
+      elif [[ $value && $section_start -eq 1 ]]; then
+        export "TF_VAR_$key"="$value"
+      fi
+    fi
+  done < "$ini_file"
 }
