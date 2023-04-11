@@ -26,8 +26,6 @@ jobs:
 
       mct getsecrets
 
-      cat config.ini
-
       cdktf ${{ parameters.action }} --auto-approve
     displayName: 'CDKTF'
     env:
