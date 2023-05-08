@@ -40,24 +40,24 @@ function mct_init {
     echo "Initializing..."
 
     if [ -e "cdktf.json" ]; then
-        if [ -e "requirements.txt" ]; then
-            pip install -r requirements.txt
+        if [ -e "Pipfile" ]; then
+            pipenv install
         fi
     else
-        cdktf init --template python-pip
+        cdktf init --template python
     fi
 }
 
 function mct_getconfig {
-    python3 main.py generateconfig
+    pipenv run python main.py generateconfig
 }
 
 function mct_getsecrets {
-    python3 main.py getsecrets
+    pipenv run python main.py getsecrets
 }
 
 function mct_synth {
-    python3 main.py synth
+    pipenv run python main.py synth
 }
 
 function mct_destroy {
