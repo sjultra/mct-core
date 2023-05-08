@@ -60,7 +60,8 @@ class TerraformCloudAPI:
                     'name': workspace_name,
                     'auto-apply': True,
                     'terraform_version': '1.0.0',
-                    'working-directory': ''
+                    'working-directory': '',
+                    'execution-mode': 'local'
                 },
                 "relationships": {
                     "project": {
