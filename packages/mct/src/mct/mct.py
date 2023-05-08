@@ -7,6 +7,8 @@ from azure.identity import ClientSecretCredential
 from azure.keyvault.secrets import SecretClient
 from azure.core.exceptions import ResourceNotFoundError
 
+from terraform_cloud import TerraformCloudAPI
+
 AppContext = { "excludeStackIdFromLogicalIds" : True, "allowSepCharsInLogicalIds": True }
 
 CONFIG_SPEC = {
@@ -19,7 +21,8 @@ CONFIG_SPEC = {
         'hostname': '',
         'organization': '',
         'workspaces': '',
-        'token': ''
+        'token': '',
+        'project': ''
     },
 }
 
@@ -145,6 +148,12 @@ class ConfigProvider():
     def get_backend_config(self, spec):
         backendConfig = self.get_config(spec).copy()
         backendConfig['workspaces'] = NamedCloudWorkspace(backendConfig['workspaces'])
+
+        tf_api = TerraformCloudAPI(backendConfig['token'])
+        tf_api.create_project_and_workspace(backendConfig['organization'], backendConfig['project'], backendConfig['workspaces'])
+
+        backendConfig.pop('project')
+
         return backendConfig
 
     def get_secret_values(self):
