@@ -1,7 +1,4 @@
-# Builds the MCT container image and publishes it to the container registry.
-# Runs on release.
-
-name: "[E-STALE] Build and publish the MCT container image"
+name: Build and publish the MCT container image
 
 # on release
 on:
